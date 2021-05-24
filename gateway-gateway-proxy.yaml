@@ -1,0 +1,31 @@
+apiVersion: gateway.solo.io/v1
+kind: Gateway
+metadata:
+  labels:
+    app: gloo
+  name: gateway-proxy
+  namespace: gloo-system
+spec:
+  bindAddress: '::'
+  bindPort: 8080
+  httpGateway:
+    options:
+      httpConnectionManagerSettings:
+        useRemoteAddress: true
+  #      xffNumTrustedHops: 2
+  options:
+    accessLoggingService:
+      accessLog:
+      - fileSink:
+          jsonFormat:
+            downstreamRemoteAddress: '%DOWNSTREAM_REMOTE_ADDRESS%'
+            duration: '%DURATION%'
+            protocol: '%PROTOCOL%'
+            upstreamCluster: '%UPSTREAM_CLUSTER%'
+            upstreamHost: '%UPSTREAM_HOST%'
+            xForwardedFor: '%REQ(X-FORWARDED-FOR)%'
+          path: /dev/stdout
+  proxyNames:
+  - gateway-proxy
+  useProxyProto: false
+
