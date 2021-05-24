@@ -27,5 +27,5 @@ spec:
           path: /dev/stdout
   proxyNames:
   - gateway-proxy
-  useProxyProto: false
+  useProxyProto: true
 
